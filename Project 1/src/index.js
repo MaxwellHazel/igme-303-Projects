@@ -5,20 +5,20 @@
 	let canvas;
 	const canvasWidth = 800, canvasHeight = 600;
 	let x = .01, y = 0, z = 0;
-	let a, b, c;
+	let a = 10, b = 28, c = 8/3;
 	//let dt=;
-	let scale;
+	let scale = 10;
 	let counter = 0;
 	let paused = false;
 	window.onload = init;
 	function init(){
-	canvas = document.querySelector('canvas');
-	  ctx = canvas.getContext("2d");
-	  canvas.width = canvasWidth;
-	  canvas.height = canvasHeight;
-	  ctx.fillRect(0,0,canvasWidth,canvasHeight);
-	  setupUI();
-	  loop();
+		canvas = document.querySelector('canvas');
+		ctx = canvas.getContext("2d");
+		canvas.width = canvasWidth;
+		canvas.height = canvasHeight;
+		ctx.fillRect(0,0,canvasWidth,canvasHeight);
+		setupUI();
+		loop();
 	}
 	
 	function loop(){
@@ -37,7 +37,8 @@
 		y = y + dy;
 		z = z + dz;
 		let value = 255 - (z * scale);
-		console.log(x,y,z);
+		console.log(dx,dy,dz);
+		//console.log(x,y,z);
 		ctx.save();
 		ctx.translate(canvasWidth/2, canvasHeight/2);
 		ctx.fillStyle = `rgb(${255 - value},${255 - value},${value})`;
@@ -48,10 +49,10 @@
 	}
 	
 	function setupUI(){
-			scale = document.querySelector("#chooserScale").value;
-			a = document.querySelector("#chooserA").value;
-			b = document.querySelector("#chooserB").value;
-			c = document.querySelector("#chooserC").value;
+			//scale = document.querySelector("#chooserScale").value;
+			//a = document.querySelector("#chooserA").value;
+			//b = document.querySelector("#chooserB").value;
+			//c = document.querySelector("#chooserC").value;
 			/*document.querySelector("#rectanglesCB").onchange = function(e){
 				console.log(e);
 				createRectangles = e.target.checked;
@@ -75,12 +76,12 @@
 					paused = false;  //This if statement makes it so update() is only called when the screensaver is being unpaused.
 					loop();
 				}
-			};
+			}
 			
 			document.querySelector("#pauseButton").onclick = function(e){
 				console.log(e);
 				paused = true;
-			};
+			}
 			
 			document.querySelector("#chooserScale").onchange = function(e){
 				scale = e.target.value;
@@ -99,10 +100,15 @@
 				//updateInfo();
 			}
 			document.querySelector("#btnExport").onclick = doExport;
-			
+			document.querySelector("#btnClear").onclick = ctx.clearRect(0, 0, ctx.canvasWidth, ctx.canvasHeight);
 			//canvas.onclick = canvasClicked;
 		}
-		
+		function cls(ctx){
+			setTimeout(function(){cls(ctx);},5000);
+			if(paused == false){
+				ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+			}
+		}
 		function doExport(){
 			// https://www.w3schools.com/jsref/met_win_open.asp
 			const data = canvas.toDataURL(); 
