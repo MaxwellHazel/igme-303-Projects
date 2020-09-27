@@ -1,13 +1,14 @@
+"use strict"
 console.log("loaded");
 (function () {
 	const drawParams = Object.freeze({
-			"minRectSpan" : 2,
+			"minRectSpan" : 0.5,
 			"maxRectSpan" : 100,
 			"minStrokeWidth" : 0,
 			"maxStrokeWidth" : 10
 	});
 		
-	function drawRect(ctx, x, y, width, height, lineWidth=0, fill="black", stroke="black", alpha=0.2){
+	function drawRect(ctx, x, y, width, height, lineWidth=0, fill="black", stroke="black", alpha=1){
 		ctx.save();                 // A - save the drawing state attributes and CTM
 		if(lineWidth >drawParams.minStrokeWidth){
 			ctx.lineWidth = lineWidth;       // B
@@ -21,7 +22,7 @@ console.log("loaded");
 		ctx.stroke();               // D - draw! i.e. make the path visible
 		ctx.restore();              // E - restore the saved values of drawing state attributes and CTM
 	}
-	function drawCircle(ctx, x, y, radius, lineWidth=0, fill="black", stroke="black", alpha=0.2){
+	function drawCircle(ctx, x, y, radius, lineWidth=0, fill="black", stroke="black", alpha=1){
 		ctx.save();
 		ctx.beginPath(); 
 		if(lineWidth >drawParams.minStrokeWidth){
@@ -37,7 +38,7 @@ console.log("loaded");
 		ctx.restore();
 	}
 		
-	function drawRing(ctx, x, y, innerRadius, outerRadius, lineWidth=0, fill="black", stroke="black", alpha=0.2){
+	function drawRing(ctx, x, y, innerRadius, outerRadius, lineWidth=0, fill="black", stroke="black", alpha=1){
 		ctx.save();
 		if(lineWidth >drawParams.minStrokeWidth){
 			ctx.lineWidth = lineWidth;       // B
@@ -53,7 +54,7 @@ console.log("loaded");
 		ctx.restore();			
 	}
 		
-	function drawLine(ctx, x, y, endpointX, endpointY, lineWidth=0, stroke="black", alpha=0.2){
+	function drawLine(ctx, x, y, endpointX, endpointY, lineWidth=0, stroke="black", alpha=1){
 		ctx.save();
 		if(lineWidth >drawParams.minStrokeWidth){
 			ctx.lineWidth = lineWidth;       // B
@@ -68,7 +69,7 @@ console.log("loaded");
 		ctx.restore();
 	}
 		
-	function drawTriangle(ctx, x, y, width, height, lineWidth=0, fill="black", stroke="black", alpha=0.2){
+	function drawTriangle(ctx, x, y, width, height, lineWidth=0, fill="black", stroke="black", alpha=1){
 		ctx.save();
 		if(lineWidth >drawParams.minStrokeWidth){
 			ctx.lineWidth = lineWidth;       // B
@@ -93,7 +94,7 @@ console.log("loaded");
         ctx.fillRect(10, 10, 100, 100);
     }
 		
-	function drawGradients() {
+	function drawGradients(ctx){//, x, y, width, height, alpha=1) {
 		var grad = ctx.createLinearGradient(10, 0, 390, 0);
 		grad.addColorStop(0, 'red');
 		grad.addColorStop(1 / 6, 'orange');
@@ -103,7 +104,7 @@ console.log("loaded");
 		grad.addColorStop(5 / 6, 'blue');
 		grad.addColorStop(1, 'purple');
 		ctx.fillStyle = grad;
-		ctx.fillRect(0, 0, 300, 75);
+		//ctx.fillRect(x, y, width, height);
 	}
 		
 	//random functions

@@ -14,15 +14,16 @@
 		<label>Scale: 
 			<select id="chooserScale">
 				<option value="1">1</option>
-				<option value="2" >2</option>
-				<option value="3" >3</option>
-				<option value="4" >4</option>
 				<option value="5">5</option>
-				<option value="6" >6</option>
-				<option value="7" >7</option>
-				<option value="8" >8</option>
-				<option value="9">9</option>
 				<option value="10" selected>10</option>
+				<option value="15" >15</option>
+				<option value="20" >20</option>
+				<option value="25" >25</option>
+				<option value="30">30</option>
+				<option value="35" >35</option>
+				<option value="40" >40</option>
+				<option value="45" >45</option>
+				
     		</select>
 		</label>
 		
@@ -55,26 +56,18 @@
 				<option value="63">63</option>
 			</select>
 		</label>
-		
-		<label>C Value: 
-			<select id="chooserC"> 
-				<option value="1/3">1/3</option>
-				<option value="2/3" >2/3</option>
-				<option value="3/3" >3/3</option>
-				<option value="4/3" >4/3</option>
-				<option value="5/3">5/3</option>
-				<option value="6/3" >6/3</option>
-				<option value="7/3" >7/3</option>
-				<option value="8/3"selected>8/3</option>
-				<option value="9/3">9/3</option>
-				<option value="10/3">10/3</option>
+		<label>Shape: 
+			<select id="chooserShape"> 
+				<option value="0"selected>Rectangle</option>
+				<option value="1" >Circle</option>
+				<option value="2" >Ring</option>
 			</select>
 		</label>
-		<span><input id="btnClear" type="button" value="Clear"/></span>
     	<span><input id="btnExport" type="button" value="Export"/></span>
-	<section>
-		<button id="playButton">Play</button> <button id="pauseButton">Pause</button>
-	</section>
+		<section>
+			<button id="playButton">Play</button> <button id="pauseButton">Pause</button>
+			<input type="checkbox" id="colorCB" ><label for="colorCB">Gradient</label>
+		</section>
 	</section>
 </body>
 </html>
