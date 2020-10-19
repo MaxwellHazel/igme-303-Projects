@@ -12,7 +12,8 @@ import * as audio from './audio.js';
 import * as canvas from './canvas.js';
 // 1 - here we are faking an enumeration
 const DEFAULTS = Object.freeze({
-	sound1  :  "media/But_even_then.mp3"
+	sound1  :  "media/Overture.mp3"
+	//I have purchased the the soundtrack I used for the built-in music choices.
 });
 const drawParams = {
 	showGradient : true,
