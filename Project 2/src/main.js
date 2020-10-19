@@ -12,7 +12,7 @@ import * as audio from './audio.js';
 import * as canvas from './canvas.js';
 // 1 - here we are faking an enumeration
 const DEFAULTS = Object.freeze({
-	sound1  :  "media/New Adventure Theme.mp3"
+	sound1  :  "media/But_even_then.mp3"
 });
 const drawParams = {
 	showGradient : true,
@@ -92,23 +92,18 @@ function setupUI(canvasElement){
 		}
 	};
 	gradientSelect.onchange = e => {
-		//console.log("init called");
 		drawParams.showGradient = e.target.checked;
 	};
 	barsSelect.onchange = e => {
-		//console.log("init called");
 		drawParams.showBars = e.target.checked;
 	};
 	circleSelect.onchange = e => {
-		//console.log("init called");
 		drawParams.showCircles = e.target.checked;
 	};
 	noiseSelect.onchange = e => {
-		//console.log("init called");
 		drawParams.showNoise = e.target.checked;
 	};
 	invertSelect.onchange = e => {
-		//console.log("init called");
 		drawParams.showInvert = e.target.checked;
 		//drawParams.showEmboss = !e.target.checked;
 		/*if(e.target.checked){
@@ -118,13 +113,12 @@ function setupUI(canvasElement){
 		//drawParams.showEmboss = false;
 	};
 	embossSelect.onchange = e => {
-		//console.log("init called");
+		drawParams.showEmboss = e.target.checked;
 		/*if(e.target.checked){
 			drawParams.showInvert = false;//e.target.checked;
 			drawParams.showEmboss = true;//e.target.checked;
 		}*/
 		//drawParams.showInvert = !e.target.checked;
-		drawParams.showEmboss = e.target.checked;
 	};
 	/*noneSelect.onchange = e => {
 		if(e.target.checked){
