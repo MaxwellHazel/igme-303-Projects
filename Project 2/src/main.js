@@ -44,10 +44,10 @@ function setupUI(canvasElement){
 	let barsSelect = document.querySelector("#barsCB");
 	let circleSelect = document.querySelector("#circlesCB");
 	let noiseSelect = document.querySelector("#noiseCB");
-	let invertSelect = document.querySelector("#invertCB");
-	let embossSelect = document.querySelector("#embossCB");
-	//let noneSelect = document.querySelector("#noneR");
-	//let radioSelect = document.querySelector("effectR");
+	let invertSelect = document.querySelector("#invertR");
+	let embossSelect = document.querySelector("#embossR");
+	let noneSelect = document.querySelector("#noneR");
+	let radioSelect = document.querySelector("effectR");
 	let highshelf = false;
 	let lowshelf = false;
 	let distortion = false;
@@ -106,7 +106,8 @@ function setupUI(canvasElement){
 	};
 	invertSelect.onchange = e => {
 		drawParams.showInvert = e.target.checked;
-		//drawParams.showEmboss = !e.target.checked;
+		drawParams.showEmboss = embossSelect.checked;
+		//drawParams.showEmboss = false;
 		/*if(e.target.checked){
 			
 		}*/
@@ -119,20 +120,20 @@ function setupUI(canvasElement){
 			drawParams.showInvert = false;//e.target.checked;
 			drawParams.showEmboss = true;//e.target.checked;
 		}*/
-		//drawParams.showInvert = !e.target.checked;
+		drawParams.showInvert = invertSelect.checked;
 	};
-	/*noneSelect.onchange = e => {
+	noneSelect.onchange = e => {
 		if(e.target.checked){
 			drawParams.showInvert = false;
 			drawParams.showEmboss = false;
 		}
-		drawParams.showInvert = false;
-		drawParams.showEmboss = false;
+		//drawParams.showInvert = false;
+		//drawParams.showEmboss = false;
 		//console.log("init called");
-		<span><input type="radio" name="effectR" id="invertR" ><label for="invertR">Invert Colors</label></span>
+		/*<span><input type="radio" name="effectR" id="invertR" ><label for="invertR">Invert Colors</label></span>
 		<span><input type="radio" name="effectR" id="embossR" ><label for="embossR">Show Emboss</label></span>
-		<span><input type="radio" name="effectR" id="noneR" checked><label for="noneR">No Effect</label></span>
-	};*/
+		<span><input type="radio" name="effectR" id="noneR" checked><label for="noneR">No Effect</label></span>*/
+	};
 	// NEW
 	document.querySelector("#upload").onchange = (e) => {
 		const files = event.target.files;
