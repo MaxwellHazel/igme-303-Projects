@@ -21,7 +21,10 @@ const drawParams = {
 	showCircles : true,
 	showNoise : false,
 	showInvert : false,
-	showEmboss : false
+	showEmboss : false,
+	showQuadratic : false,
+	showCubicBezier : false,
+	showWaveform : false
 };
 
 function init(){
@@ -48,6 +51,9 @@ function setupUI(canvasElement){
 	let embossSelect = document.querySelector("#embossR");
 	let noneSelect = document.querySelector("#noneR");
 	let radioSelect = document.querySelector("effectR");
+	let quadSelect = document.querySelector("#quadraticCB");
+	let bezierSelect = document.querySelector("#bezierCB");
+	let waveformSelect = document.querySelector("#waveformCB");
 	let highshelf = false;
 	let lowshelf = false;
 	let distortion = false;
@@ -58,12 +64,12 @@ function setupUI(canvasElement){
 		utils.goFullscreen(canvasElement);
 	};
 	playButton.onclick = e => {
-		console.log(`audioCtx.state before = ${audio.audioCtx.state}`);
+		//console.log(`audioCtx.state before = ${audio.audioCtx.state}`);
 		if(audio.audioCtx.state == "suspended") {
 			audio.audioCtx.resume();
 		}
-		console.log(`audioCtx.state after = ${audio.audioCtx.state}`);
-		console.log(`e.target.dataset.playing before = ${e.target.dataset.playing}`);
+		//console.log(`audioCtx.state after = ${audio.audioCtx.state}`);
+		//console.log(`e.target.dataset.playing before = ${e.target.dataset.playing}`);
 		if(e.target.dataset.playing == "no"){
 			audio.playCurrentSound();
 			e.target.dataset.playing = "yes";
@@ -72,7 +78,10 @@ function setupUI(canvasElement){
 			e.target.dataset.playing = "no";
 			//audio.audioCtx.state = "suspended";
 		}
-		console.log(`e.target.dataset.playing after = ${e.target.dataset.playing}`);
+		//console.log(`e.target.dataset.playing after = ${e.target.dataset.playing}`);
+	};
+	logButton.onclick = e => {
+		audioLog();
 	};
 	// Chrome autoplay fix
 	// https://developers.google.com/web/updates/2017/09/autoplay-policy-changes
@@ -134,7 +143,17 @@ function setupUI(canvasElement){
 		<span><input type="radio" name="effectR" id="embossR" ><label for="embossR">Show Emboss</label></span>
 		<span><input type="radio" name="effectR" id="noneR" checked><label for="noneR">No Effect</label></span>*/
 	};
-	// NEW
+	quadSelect.onchange = function(e){
+		drawParams.showQuadratic = e.target.checked;
+	};
+			
+	bezierSelect.onchange = function(e){
+		drawParams.showCubicBezier = e.target.checked;
+	};
+	waveformSelect.onchange = function(e){
+		drawParams.showWaveform = e.target.checked;
+	};
+	// file uploader
 	document.querySelector("#upload").onchange = (e) => {
 		const files = event.target.files;
 		document.querySelector("audio").src = URL.createObjectURL(files[0]);
@@ -167,12 +186,13 @@ function setupUI(canvasElement){
 	
 } // end setupUI
 function loop(){
-/* NOTE: This is temporary testing code that we will delete in Part II */
 	requestAnimationFrame(loop);
 	canvas.draw(drawParams);
-	// 1) create a byte array (values of 0-255) to hold the audio data
+}
+function audioLog(){
+	//1) create a byte array (values of 0-255) to hold the audio data
 	// normally, we do this once when the program starts up, NOT every frame
-	/*let audioData = new Uint8Array(audio.analyserNode.fftSize/2);
+	let audioData = new Uint8Array(audio.analyserNode.fftSize/2);
 	
 	// 2) populate the array of audio data *by reference* (i.e. by its address)
 	audio.analyserNode.getByteFrequencyData(audioData);
@@ -193,6 +213,6 @@ function loop(){
 		console.log(`minLoudness = ${minLoudness}`);
 		console.log(`maxLoudness = ${maxLoudness}`);
 		console.log(`loudnessAt2K = ${loudnessAt2K}`);
-		console.log("---------------------");*/
+		console.log("---------------------");
 }
 export {init};

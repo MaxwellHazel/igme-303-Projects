@@ -9,8 +9,8 @@
 
 import * as utils from './utils.js';
 
-let ctx,canvasWidth,canvasHeight,gradient,analyserNode,audioData;
-
+let ctx,canvasWidth,canvasHeight,gradient,analyserNode,audioData, data2;
+var quarterBucket=0,halfBucket=0,threeQuarterBucket=0,lastQuarterBucket=0,averageLoudness=0,medianLoudness=0;
 
 function setupCanvas(canvasElement,analyserNodeRef){
 	// create drawing context
@@ -23,6 +23,8 @@ function setupCanvas(canvasElement,analyserNodeRef){
 	analyserNode = analyserNodeRef;
 	// this is the array where the analyser data will be stored
 	audioData = new Uint8Array(analyserNode.fftSize/2);
+	data2 = new Uint8Array(analyserNode.fftSize/2);
+	analyserNode.getByteTimeDomainData(data2);
 }
 
 function draw(params={}){
@@ -43,28 +45,44 @@ function draw(params={}){
 		// 3 - draw background
 		ctx.save();
 		ctx.fillStyle = "black";
-		ctx.globalAlpha = .1;
+		ctx.globalAlpha = 0.01;
 		ctx.fillRect(0,0,canvasWidth,canvasHeight);
 		ctx.restore();
 	}
+	
 	// 4 - draw bars
-	if(params.showBars){
-		let barSpacing = 4;
-		let margin = 5;
-		let screenWidthForBars = canvasWidth - (audioData.length * barSpacing) - margin * 2;
-		let barWidth = screenWidthForBars / audioData.length;
-		let barHeight = 200;
-		let topSpacing = 100;
-		
-		ctx.save();
-		ctx.fillStyle = 'rgba(255,255,255,0.50)';
-		ctx.strokeStyle = 'rgba(0,0,0,0.50)';
-		for(let i=0; i<audioData.length; i++){
-			ctx.fillRect(margin + i * (barWidth + barSpacing),topSpacing + 256-audioData[i],barWidth,barHeight);
+	let barSpacing = 4;
+	let margin = 5;
+	let screenWidthForBars = canvasWidth - (audioData.length * barSpacing) - margin * 2;
+	let barWidth = screenWidthForBars / audioData.length;
+	let barHeight = 200;
+	let topSpacing = 100;
+	var quarterBucket=0,halfBucket=0,threeQuarterBucket=0,lastQuarterBucket=0,averageLoudness=0,medianLoudness=0;
+	// loop through the data and draw!
+	ctx.save();
+	ctx.strokeStyle = 'rgba(0,0,0,0.50)';
+	for(var i=0; i<audioData.length; i++) { 
+		// the higher the amplitude of the sample (bin) the taller the bar
+		// remember we have to draw our bars left-to-right and top-down
+				
+		// just draw every other bin
+		if (params.showBars && i%2 == 0){
+			// ramp the color left to right
+			ctx.fillStyle = utils.makeColor(255 - i*4,128 + i*2,i*4,.04);
+			//ctx.fillStyle = 'rgba(255,255,255,0.50)';
+			ctx.fillRect(i * (barWidth + barSpacing),topSpacing + 256-audioData[i],barWidth,barHeight);
 			ctx.strokeRect(margin + i * (barWidth + barSpacing),topSpacing + 256-audioData[i],barWidth,barHeight);
 		}
-		ctx.restore();
+		averageLoudness += audioData[i];
 	}
+	ctx.restore();
+	
+	// AGGREGATE THE FREQUENCY STATS
+	averageLoudness /= audioData.length;
+	averageLoudness /= 255;
+	medianLoudness = audioData[audioData.length/2.0];
+	medianLoudness /= audioData.length;
+	
 	// 5 - draw circles
 	if(params.showCircles){
 		let maxRadius = canvasHeight/4;
@@ -140,6 +158,25 @@ function draw(params={}){
 			if(i%4 == 3) continue; //skip alpha channel
 			data[i] = 127 + 2*data[i] - data[i+4] - data [i + width *4];
 		}
+	}
+	// QUADRATIC CURVES
+	var range = canvasHeight;
+	if (params.showQuadratic){
+		utils.drawQuadraticCurve(ctx,5,utils.makeColor(255,255,0,0.1),-20,canvasHeight-70,canvasWidth/2.0,range - range*averageLoudness*2,canvasWidth+20,canvasHeight-70);
+		utils.drawQuadraticCurve(ctx,10,utils.makeColor(255,20,20,0.1),-50,canvasHeight-30,canvasWidth/2.0,range - range*medianLoudness*2,canvasWidth+50,canvasHeight-30);
+	}
+			
+			
+	// CUBIC BEZIER CURVES
+	if (params.showCubicBezier){
+		//utils.makeColor(153,50,204,0.15)
+		ctx.globalAlpha = 0.15;
+		utils.drawCubicBezierCurve(ctx,3,utils.getRandomColor(),0,canvasHeight,canvasWidth/2.0,range - range*averageLoudness*2,canvasWidth/2.0,range - range*medianLoudness*2,canvasWidth,canvasHeight);
+		ctx.globalAlpha = 1.0;
+	}
+	// WAVEFORM
+	if (params.showWaveform){
+		utils.drawWaveform(ctx,data2);
 	}
 	// D) copy image data back to canvas
 	ctx.putImageData(imageData, 0, 0);

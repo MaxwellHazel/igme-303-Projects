@@ -13,6 +13,7 @@
 		<section>
 			<button id="playButton" data-playing="no"></button>
 			<button id="fsButton">Full Screen</button>
+			<button id="logButton" for="Prints audio data to the console">Print Audio Data</button>
 			<audio controls src="" allow="autoplay"></audio>
 			<p>Choose a sound file from your hard drive! --> <input type="file" id="upload" title="Upload File" /></p>
 			<label>Track: 
@@ -34,6 +35,9 @@
 		<span><input type="checkbox" id="barsCB" checked=true><label for="barsCB">Show Bars</label></span>
 		<span><input type="checkbox" id="circlesCB" checked=true><label for="circlesCB">Show Circles</label></span>
 		<span><input type="checkbox" id="noiseCB" ><label for="noiseCB">Show Noise</label></span>
+		<span><input type="checkbox" id="bezierCB" ><label for="bezierCB">Show Cubic Bezier Curves</label></span>
+		<span><input type="checkbox" id="quadraticCB" ><label for="quadraticCB">Show Quadratic Curves</label></span>
+		<span><input type="checkbox" id="waveformCB" ><label for="waveformCB">Show Waveform</label></span>
 		<span><input type="radio" name="effect" id="invertR" ><label for="invertR">Invert Colors</label></span>
 		<span><input type="radio" name="effect" id="embossR" ><label for="embossR">Show Emboss</label></span>
 		<span><input type="radio" name="effect" id="noneR" ><label for="noneR">No Effect</label></span>
